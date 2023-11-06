@@ -18,5 +18,7 @@ lazy val root = (project in file("."))
     libraryDependencies += "com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion,
     libraryDependencies += "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion,
     libraryDependencies += "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
-    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.4.11" % Runtime
+    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.4.11" % Runtime,
+    libraryDependencies += "org.mockito" %% "mockito-scala" % "1.16.29"
   )
+
