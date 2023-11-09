@@ -1,4 +1,4 @@
 @main
-def main(args: String*): Unit = {
+def airportData(args: String*): Unit = {
   println("Starting 'Airport Data' application...")
 }

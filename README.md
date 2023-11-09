@@ -11,8 +11,15 @@ Alle bisher implementierten Features:
 
 1. ...
 
-## Api Informationen
+## Build / run
 
-Für dieses Projekt wird folgender API verwendet:
+```bash
+# run tests
+sbt coverage test
 
-- [OpenSky-Network](https://opensky-network.org)
+# run applications -> have to choose which one
+sbt run
+
+# clean up genereated files
+sbt clean
+```

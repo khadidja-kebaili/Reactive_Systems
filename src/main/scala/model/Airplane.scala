@@ -1,5 +1,5 @@
 package model
 
-case class City(name: String) {
+case class Airplane(name: String) {
   override def toString: String = name
 }
