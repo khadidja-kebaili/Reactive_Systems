@@ -8,13 +8,17 @@ class AirportControllerTest extends AnyWordSpec with Matchers {
   "AirportController" when {
     "given a valid airline name" should {
       "return true" in {
-        val airportController = AirportController
-        airportController.isAirplaneValid(Airplane("Air Berlin")) shouldBe true
+        val airportController = AirportController.isAirplaneValid(Airplane("Air Berlin"))
+        airportController shouldBe true
       }
       "return false" in {
-        val airportController = AirportController
-        airportController.isAirplaneValid(Airplane("Japan Airlines")) shouldBe false
+        val airportController = AirportController.isAirplaneValid(Airplane("Japan Airlines"))
+        airportController shouldBe false
       }
+    }
+    "return a list of airplanes" in {
+      val airplanes = AirportController.getAirplanes()
+      airplanes shouldBe a[List[Airplane]]
     }
   }
 }

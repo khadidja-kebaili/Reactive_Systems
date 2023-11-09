@@ -3,7 +3,6 @@ package controller
 import model.Airplane
 
 object AirportController {
-
   val exampleAirport: List[Airplane] = List(
     Airplane("Air Berlin"),
     Airplane("Lufthansa"),
@@ -16,7 +15,6 @@ object AirportController {
   }
 
   def getAirplanes(): List[Airplane] = {
-    return exampleAirport
+    exampleAirport
   }
-
 }
