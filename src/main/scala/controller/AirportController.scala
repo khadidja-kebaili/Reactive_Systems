@@ -4,20 +4,19 @@ import model.Airplane
 
 object AirportController {
 
-  val airports: Array[Airplane] = Array(
-    new Airplane("Frankfurt am Main"),
-    new Airplane("Berlin Brandenburg"),
-    new Airplane("Bremen"),
-    new Airplane("München"),
-    new Airplane("Stuttgart")
+  val exampleAirport: List[Airplane] = List(
+    Airplane("Air Berlin"),
+    Airplane("Lufthansa"),
+    Airplane("Air France"),
+    Airplane("Air Algerie")
   )
 
-  def isCityValid(city: Airplane): Boolean = {
-    airports.contains(city)
+  def isAirplaneValid(city: Airplane): Boolean = {
+    exampleAirport.contains(city)
   }
 
-  def getCities(): Array[Airplane] = {
-    return airports
+  def getAirplanes(): List[Airplane] = {
+    return exampleAirport
   }
 
 }
