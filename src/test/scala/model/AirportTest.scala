@@ -7,11 +7,15 @@ class AirportTest extends AnyWordSpec with Matchers {
 
   "Airport" should {
     "have the correct name" in {
-      val airport = Airport("Frankfurt am Main")
+      val arrivals: List[Airplane] = List()
+      val departures: List[Airplane] = List()
+      val airport = Airport("Frankfurt am Main", arrivals, departures)
       airport.name shouldEqual "Frankfurt am Main"
     }
     "have a meaningful toString representation" in {
-      val airport = Airport("Berlin")
+      val arrivals: List[Airplane] = List()
+      val departures: List[Airplane] = List()
+      val airport = Airport("Berlin", arrivals, departures)
       airport.toString shouldEqual "Berlin"
     }
   }

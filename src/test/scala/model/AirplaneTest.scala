@@ -7,12 +7,15 @@ class AirplaneTest extends AnyWordSpec with Matchers {
 
   "Airplane" should {
     "have the correct name" in {
-      val airplane = Airplane("Boeing 747")
-      airplane.name shouldEqual "Boeing 747"
+      val airplane = Airplane("Boeing 747", "XYZ123", "10:00", "10:15")
+      airplane.airlineName shouldEqual "Boeing 747"
+      airplane.flightNumber shouldEqual "XYZ123"
+      airplane.arrivalTime shouldEqual "10:00"
+      airplane.estimatedArrivalTime shouldEqual "10:15"
     }
     "have a meaningful toString representation" in {
-      val airplane = Airplane("Airbus A380")
-      airplane.toString shouldEqual "Airbus A380"
+      val airplane = Airplane("Airbus A380", "XYZ123", "10:00", "10:15")
+      airplane.toString shouldEqual "Airbus A380, XYZ123, 10:00, 10:15"
     }
   }
 
