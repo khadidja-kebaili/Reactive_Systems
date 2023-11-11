@@ -4,10 +4,10 @@ import model.Airplane
 
 object AirportController {
   val exampleAirport: List[Airplane] = List(
-    Airplane("Air Berlin"),
-    Airplane("Lufthansa"),
-    Airplane("Air France"),
-    Airplane("Air Algerie")
+    Airplane("Air Berlin", "XYZ123", "10:00", "10:15"),
+    Airplane("Lufthansa", "XYZ123", "10:00", "10:15"),
+    Airplane("Air France", "XYZ123", "10:00", "10:15"),
+    Airplane("Air Algerie", "XYZ123", "10:00", "10:15")
   )
 
   def isAirplaneValid(city: Airplane): Boolean = {
