@@ -1,16 +1,31 @@
 import scala.util.Random
 import java.time.LocalTime
 import scala.util.Random
-import model.Airplane
-import model.Airport
+import model._
 import java.time.temporal.ChronoUnit
+import akka.actor.ActorSystem
+import akka.actor.typed.javadsl.Behaviors
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
+import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.server.Directives.*
+import akka.stream._
+import spray.json.*
+import scala.concurrent.ExecutionContext
+import scala.io.StdIn._
 
+// This is needed to convert between models and json
+trait AirportJsonProtocol extends DefaultJsonProtocol {
+  implicit val airplaneFormat: RootJsonFormat[Airplane] = jsonFormat4(Airplane.apply)
+  implicit val airportFormat: RootJsonFormat[Airport] = jsonFormat3(Airport.apply)
+  implicit val airportsFormat: RootJsonFormat[Airports] = jsonFormat1(Airports.apply)
+}
 
-object airlineGenerator {
-  val airlines = List("Lufthansa", "Air Berlin", "Ryanair", "Emirates", "United Airlines")
+object Generator extends AirportJsonProtocol with SprayJsonSupport {
+  private val airlines = List("Lufthansa", "Air Berlin", "Ryanair", "Emirates", "United Airlines")
 
   // Funktion zum Generieren eines zufälligen Flugzeugs
-  def airplaneGenerator: Airplane = {
+  private def airplaneGenerator: Airplane = {
     val airline = airlines(Random.nextInt(airlines.length))
 
     // Deklaration der Variablen mit initialen Werten
@@ -30,24 +45,34 @@ object airlineGenerator {
   }
 
   // Funktion zum Generieren eines zufälligen Flughafens mit einer bestimmten Anzahl von Abflügen bzw. Ankünften
-  def airportGenerator(name: String, numberOfFlights: Int): Airport = {
-    val departures = List.fill(numberOfFlights)(airplaneGenerator)
-    val arrivals = List.fill(numberOfFlights)(airplaneGenerator)
-    Airport(name, arrivals, departures )
+  private def airportGenerator(name: String): Airport = {
+    val departures = List.fill(Random.nextInt(5))(airplaneGenerator)
+    val arrivals = List.fill(Random.nextInt(5))(airplaneGenerator)
+    Airport(name, arrivals, departures)
   }
-}
 
-@main
-def generator(airport: String): Unit = {
-  // Beispiel: Generiere 50 zufällige Abflüge / Ankünfte für zufällig selektierte Airlines
+  // define api routes
+  private val routes: Route = pathPrefix("airport") {
+    (get) {
+      complete(Airports(airlines.map((name) => airportGenerator(name))))
+    } ~
+      (get & path(Segment)) { name =>
+        complete(airportGenerator(name))
+      }
+  }
 
-  val randomAirport = airlineGenerator.airportGenerator(airport, 50)
-
-  // Ausgabe der generierten Daten
-  println(s"Flughafen: ${randomAirport.name}")
-  println("Abflüge:")
-  randomAirport.arrivals.foreach { flug =>
-    println(s"Fluglinie: ${flug.airlineName} Flugnummer: ${flug.flightNumber} geplante Ankunft: ${flug.estimatedArrivalTime} " +
-      s"tatsächliche Ankunft: ${flug.arrivalTime}")
+  @main
+  def mainGenerator(args: String*): Unit = {
+    implicit val system: ActorSystem = ActorSystem("Generator")
+    implicit val ec: ExecutionContext = system.dispatcher
+    val serverFuture = Http().newServerAt("localhost", 8081).bind(routes)
+    println("Generator online at http://localhost:8081/\nPress ENTER to stop...")
+    readLine()
+    serverFuture
+      .flatMap(_.unbind())
+      .onComplete(_ => {
+        system.terminate()
+        println("Generator shutting down...")
+      })
   }
 }
