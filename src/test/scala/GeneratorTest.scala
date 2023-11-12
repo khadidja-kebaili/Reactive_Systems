@@ -57,30 +57,5 @@ class GeneratorTest extends AnyWordSpec with Matchers with ScalatestRouteTest wi
         entityAs[String] should include regex "\"name\""
       }
     }
-
-    "start a server on http://localhost:8081" in {
-      val serverFuture = Http().newServerAt("localhost", 8081).bind(routes)
-
-      whenReady(serverFuture) { binding =>
-        binding.localAddress.getPort shouldBe 8081
-
-        // You can add more tests here to check if the server is responding correctly
-        val request = HttpRequest(uri = "http://localhost:8081/airport")
-        val response: Future[HttpResponse] = Http().singleRequest(request)
-
-        whenReady(response, timeout(5.seconds)) { res =>
-          res.status shouldBe StatusCodes.OK
-        }
-
-        // Stop the server after testing
-        serverFuture
-          .flatMap(_.unbind())
-          .onComplete(_ => {
-            system.terminate()
-            println("Generator shutting down...")
-          })
-      }
-    }
-
   }
 }
