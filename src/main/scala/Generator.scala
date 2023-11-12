@@ -1,31 +1,30 @@
-import scala.util.Random
-import java.time.LocalTime
-import scala.util.Random
-import model._
-import java.time.temporal.ChronoUnit
 import akka.actor.ActorSystem
-import akka.actor.typed.javadsl.Behaviors
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.Directives.*
-import akka.stream._
+import akka.http.scaladsl.server.Route
+import model.*
 import spray.json.*
+
+import java.time.LocalTime
+import java.time.temporal.ChronoUnit
 import scala.concurrent.ExecutionContext
-import scala.io.StdIn._
+import scala.io.StdIn.*
+import scala.util.Random
 
 // This is needed to convert between models and json
-trait AirportJsonProtocol extends DefaultJsonProtocol {
+class ModelJsonConverters extends DefaultJsonProtocol {
   implicit val airplaneFormat: RootJsonFormat[Airplane] = jsonFormat4(Airplane.apply)
   implicit val airportFormat: RootJsonFormat[Airport] = jsonFormat3(Airport.apply)
   implicit val airportsFormat: RootJsonFormat[Airports] = jsonFormat1(Airports.apply)
 }
 
-object Generator extends AirportJsonProtocol with SprayJsonSupport {
-  private val airlines = List("Lufthansa", "Air Berlin", "Ryanair", "Emirates", "United Airlines")
+object Generator extends ModelJsonConverters with SprayJsonSupport {
+  val airports = List("Berlin-Tegel", "München", "Dortmund", "Erfurt-Weimar", "Stuttgart")
+  val airlines = List("Lufthansa", "Air Berlin", "Ryanair", "Emirates", "United Airlines")
 
   // Funktion zum Generieren eines zufälligen Flugzeugs
-  private def airplaneGenerator: Airplane = {
+  def airplaneGenerator: Airplane = {
     val airline = airlines(Random.nextInt(airlines.length))
 
     // Deklaration der Variablen mit initialen Werten
@@ -45,19 +44,19 @@ object Generator extends AirportJsonProtocol with SprayJsonSupport {
   }
 
   // Funktion zum Generieren eines zufälligen Flughafens mit einer bestimmten Anzahl von Abflügen bzw. Ankünften
-  private def airportGenerator(name: String): Airport = {
+  def airportGenerator(name: String): Airport = {
     val departures = List.fill(Random.nextInt(5))(airplaneGenerator)
     val arrivals = List.fill(Random.nextInt(5))(airplaneGenerator)
     Airport(name, arrivals, departures)
   }
 
   // define api routes
-  private val routes: Route = pathPrefix("airport") {
-    (get) {
-      complete(Airports(airlines.map((name) => airportGenerator(name))))
+  val routes: Route = pathPrefix("airport") {
+    (get & path(Segment)) { name =>
+      complete(airportGenerator(name))
     } ~
-      (get & path(Segment)) { name =>
-        complete(airportGenerator(name))
+      (get) {
+        complete(Airports(airports.map((name) => airportGenerator(name))))
       }
   }
 
