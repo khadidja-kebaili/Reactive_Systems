@@ -1,5 +1,4 @@
 import akka.actor.ActorSystem
-import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.*
 import akka.http.scaladsl.server.*
 import akka.http.scaladsl.server.Directives.*
@@ -10,8 +9,8 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import spray.json.RootJsonFormat
 
-import scala.concurrent.duration.*
-import scala.concurrent.{ExecutionContext, Future}
+import java.time.LocalTime
+import scala.concurrent.ExecutionContext
 
 
 class GeneratorTest extends AnyWordSpec with Matchers with ScalatestRouteTest with ScalaFutures {
@@ -40,6 +39,10 @@ class GeneratorTest extends AnyWordSpec with Matchers with ScalatestRouteTest wi
     implicit val ec: ExecutionContext = system.dispatcher
     val routes = Generator.routes
 
+    "extend ModelJsonConverters with SprayJsonSupport" in {
+      Generator shouldBe a[ModelJsonConverters]
+    }
+
     "return some airports for GET requests to the '/airport' path" in {
       Get("/airport") ~> routes ~> check {
         status should ===(StatusCodes.OK)
@@ -56,6 +59,35 @@ class GeneratorTest extends AnyWordSpec with Matchers with ScalatestRouteTest wi
         entityAs[String] should include regex "\"departures\":\\["
         entityAs[String] should include regex "\"name\""
       }
+    }
+
+    "generate an valid Airplane" in {
+      val airplane = Generator.airplaneGenerator
+
+      // Validate airline
+      airplane.airlineName should not be empty
+
+      // Validate flightNumber
+      airplane.flightNumber should startWith("XYZ")
+      airplane.flightNumber.drop(4).forall(_.isDigit) shouldBe true
+
+      // Validate arrivalTime
+      val arrivalTime = LocalTime.parse(airplane.arrivalTime)
+      arrivalTime should not be null
+
+      // Validate estimatedArrivalTime
+      val estimatedArrivalTime = LocalTime.parse(airplane.estimatedArrivalTime)
+      estimatedArrivalTime should not be null
+      estimatedArrivalTime should be >= arrivalTime
+    }
+
+    "generate an valid Airport" in {
+      val airportName = "Frankfurt"
+      val airport = Generator.airportGenerator(airportName)
+      airport shouldBe a[Airport]
+      airport.departures shouldBe a[List[_]]
+      airport.arrivals shouldBe a[List[_]]
+      airport.name shouldEqual airportName
     }
   }
 }
