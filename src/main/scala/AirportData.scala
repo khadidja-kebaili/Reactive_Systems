@@ -12,7 +12,7 @@ def mainAirportData(args: String*): Unit = {
 
 @main
 def mainGenerator(args: String*): Unit = {
-  implicit val system: ActorSystem = ActorSystem("Generator")
+  implicit val system: ActorSystem = ActorSystem("ApiServer")
   implicit val ec: ExecutionContext = system.dispatcher
   val serverFuture = Http().newServerAt("localhost", 8081).bind(routes)
   println("Generator online at http://localhost:8081/\nPress ENTER to stop...")

@@ -36,8 +36,8 @@ class ApiServerTest extends AnyWordSpec with Matchers with ScalatestRouteTest wi
     }
   }
 
-  "Generator" should {
-    implicit val system: ActorSystem = ActorSystem("Generator")
+  "ApiServer" should {
+    implicit val system: ActorSystem = ActorSystem("ApiServer")
     implicit val ec: ExecutionContext = system.dispatcher
     val routes = ApiServer.routes
 
