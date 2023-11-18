@@ -50,6 +50,8 @@ class ApiServerTest extends AnyWordSpec with Matchers with ScalatestRouteTest wi
         status should ===(StatusCodes.OK)
         contentType should ===(ContentTypes.`application/json`)
         entityAs[String] should include regex "\"airports\":\\["
+        entityAs[String] shouldNot include regex "\"arrivals\":\\["
+        entityAs[String] shouldNot include regex "\"departures\":\\["
       }
     }
 

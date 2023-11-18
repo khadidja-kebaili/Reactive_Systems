@@ -58,7 +58,7 @@ object ApiServer extends ModelJsonConverters with SprayJsonSupport {
       complete(airportGenerator(name))
     } ~
       (get) {
-        complete(Airports(airports.map((name) => airportGenerator(name))))
+        complete(Airports(airports))
       }
   }
 }
