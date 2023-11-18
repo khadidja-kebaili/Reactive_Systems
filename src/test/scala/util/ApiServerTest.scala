@@ -1,3 +1,5 @@
+package util
+
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model.*
 import akka.http.scaladsl.server.*
@@ -13,7 +15,7 @@ import java.time.LocalTime
 import scala.concurrent.ExecutionContext
 
 
-class GeneratorTest extends AnyWordSpec with Matchers with ScalatestRouteTest with ScalaFutures {
+class ApiServerTest extends AnyWordSpec with Matchers with ScalatestRouteTest with ScalaFutures {
   "ModelJsonConverters" should {
     "provide implicit RootJsonFormat for Airplane" in {
       val converters = new ModelJsonConverters
@@ -37,10 +39,10 @@ class GeneratorTest extends AnyWordSpec with Matchers with ScalatestRouteTest wi
   "Generator" should {
     implicit val system: ActorSystem = ActorSystem("Generator")
     implicit val ec: ExecutionContext = system.dispatcher
-    val routes = Generator.routes
+    val routes = ApiServer.routes
 
     "extend ModelJsonConverters with SprayJsonSupport" in {
-      Generator shouldBe a[ModelJsonConverters]
+      ApiServer shouldBe a[ModelJsonConverters]
     }
 
     "return some airports for GET requests to the '/airport' path" in {
@@ -62,7 +64,7 @@ class GeneratorTest extends AnyWordSpec with Matchers with ScalatestRouteTest wi
     }
 
     "generate an valid Airplane" in {
-      val airplane = Generator.airplaneGenerator
+      val airplane = ApiServer.airplaneGenerator
 
       // Validate airline
       airplane.airlineName should not be empty
@@ -83,7 +85,7 @@ class GeneratorTest extends AnyWordSpec with Matchers with ScalatestRouteTest wi
 
     "generate an valid Airport" in {
       val airportName = "Frankfurt"
-      val airport = Generator.airportGenerator(airportName)
+      val airport = ApiServer.airportGenerator(airportName)
       airport shouldBe a[Airport]
       airport.departures shouldBe a[List[_]]
       airport.arrivals shouldBe a[List[_]]

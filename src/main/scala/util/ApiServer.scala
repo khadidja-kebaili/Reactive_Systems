@@ -1,3 +1,5 @@
+package util
+
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
@@ -19,7 +21,7 @@ class ModelJsonConverters extends DefaultJsonProtocol {
   implicit val airportsFormat: RootJsonFormat[Airports] = jsonFormat1(Airports.apply)
 }
 
-object Generator extends ModelJsonConverters with SprayJsonSupport {
+object ApiServer extends ModelJsonConverters with SprayJsonSupport {
   val airports = List("Berlin-Tegel", "München", "Dortmund", "Erfurt-Weimar", "Stuttgart")
   val airlines = List("Lufthansa", "Air Berlin", "Ryanair", "Emirates", "United Airlines")
 
@@ -58,20 +60,5 @@ object Generator extends ModelJsonConverters with SprayJsonSupport {
       (get) {
         complete(Airports(airports.map((name) => airportGenerator(name))))
       }
-  }
-
-  @main
-  def mainGenerator(args: String*): Unit = {
-    implicit val system: ActorSystem = ActorSystem("Generator")
-    implicit val ec: ExecutionContext = system.dispatcher
-    val serverFuture = Http().newServerAt("localhost", 8081).bind(routes)
-    println("Generator online at http://localhost:8081/\nPress ENTER to stop...")
-    readLine()
-    serverFuture
-      .flatMap(_.unbind())
-      .onComplete(_ => {
-        system.terminate()
-        println("Generator shutting down...")
-      })
   }
 }
