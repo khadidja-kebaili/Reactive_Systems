@@ -56,9 +56,11 @@ object ApiServer extends ModelJsonConverters with SprayJsonSupport {
   val routes: Route = pathPrefix("airport") {
     (get & path(Segment)) { name =>
       complete(airportGenerator(name))
-    } ~
+    }
+  } ~
+    pathPrefix("airports") {
       (get) {
         complete(Airports(airports))
       }
-  }
+    }
 }

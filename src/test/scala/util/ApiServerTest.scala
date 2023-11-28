@@ -45,11 +45,11 @@ class ApiServerTest extends AnyWordSpec with Matchers with ScalatestRouteTest wi
       ApiServer shouldBe a[ModelJsonConverters]
     }
 
-    "return some airports for GET requests to the '/airport' path" in {
-      Get("/airport") ~> routes ~> check {
+    "return some airports for GET requests to the '/airports' path" in {
+      Get("/airports") ~> routes ~> check {
         status should ===(StatusCodes.OK)
         contentType should ===(ContentTypes.`application/json`)
-        entityAs[String] should include regex "\"airports\":\\["
+        entityAs[String] should include regex "\"names\":\\["
         entityAs[String] shouldNot include regex "\"arrivals\":\\["
         entityAs[String] shouldNot include regex "\"departures\":\\["
       }
