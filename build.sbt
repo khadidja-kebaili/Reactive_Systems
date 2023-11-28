@@ -7,8 +7,7 @@ val AkkaHttpVersion = "10.5.0"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "Reactive_Systems",
-    coverageEnabled := true
+    name := "Reactive_Systems"
   )
   .settings(
     libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.17",
@@ -20,9 +19,6 @@ lazy val root = (project in file("."))
     libraryDependencies += "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion,
     libraryDependencies += "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
     libraryDependencies += "com.typesafe.akka" %% "akka-stream-testkit" % AkkaVersion,
-    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.4.11" % Runtime,
-
-    coverageExcludedPackages := "frontend.*",
-    coverageExcludedFiles := "AirportData.*"
+    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.4.11" % Runtime
   )
 
