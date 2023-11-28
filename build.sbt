@@ -8,7 +8,8 @@ val AkkaHttpVersion = "10.5.0"
 lazy val root = (project in file("."))
   .settings(
     name := "Reactive_Systems",
-    coverageEnabled := true
+    coverageEnabled := true,
+    coverageExcludedPackages := "<empty>;AirportData.*;frontend\\.*"
   )
   .settings(
     libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.17",
