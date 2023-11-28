@@ -1,0 +1,5 @@
+{
+  "skip_files": [
+    "src/main/scala/AirportData.scala"
+  ]
+}
