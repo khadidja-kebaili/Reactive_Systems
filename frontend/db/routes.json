@@ -2,5 +2,5 @@
   "/api/flight": "/flight",
   "/api/flight/:id": "/flight/:id",
   "/api/airport/:id": "/airport/:id",
-  "/api/airports": "/airports"
+  "/api/airport": "/airports"
 }
