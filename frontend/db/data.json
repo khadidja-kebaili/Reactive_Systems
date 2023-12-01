@@ -1,8 +1,455 @@
 {
   "airports": [
+    {
+      "id": 1,
+      "name": "Los Angeles International Airport"
+    },
+    {
+      "id": 2,
+      "name": "John F. Kennedy International Airport"
+    },
+    {
+      "id": 3,
+      "name": "Heathrow Airport"
+    },
+    {
+      "id": 4,
+      "name": "Charles de Gaulle Airport"
+    },
+    {
+      "id": 5,
+      "name": "Tokyo Haneda Airport"
+    }
   ],
   "airport": [
+    {
+      "id": 1,
+      "name": "Los Angeles International Airport",
+      "arrivals": [
+        {
+          "airlineName": "American Airlines",
+          "flightNumber": "AA 123",
+          "from": "JFK",
+          "to": "LAX",
+          "gate": "A1",
+          "arrivalTime": "2016-12-08T09:00:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T09:00:00.000Z"
+        },
+        {
+          "airlineName": "Delta Airlines",
+          "flightNumber": "DL 456",
+          "from": "ORD",
+          "to": "LAX",
+          "gate": "B2",
+          "arrivalTime": "2016-12-08T10:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T10:30:00.000Z"
+        },
+        {
+          "airlineName": "United Airlines",
+          "flightNumber": "UA 789",
+          "from": "DFW",
+          "to": "LAX",
+          "gate": "C3",
+          "arrivalTime": "2016-12-08T12:00:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T12:00:00.000Z"
+        },
+        {
+          "airlineName": "Southwest Airlines",
+          "flightNumber": "WN 012",
+          "from": "LAS",
+          "to": "LAX",
+          "gate": "D4",
+          "arrivalTime": "2016-12-08T13:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T13:30:00.000Z"
+        }
+      ],
+      "departures": [
+        {
+          "airlineName": "American Airlines",
+          "flightNumber": "AA 456",
+          "from": "LAX",
+          "to": "JFK",
+          "gate": "A2",
+          "arrivalTime": "2016-12-08T09:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T09:30:00.000Z"
+        },
+        {
+          "airlineName": "Delta Airlines",
+          "flightNumber": "DL 789",
+          "from": "LAX",
+          "to": "ORD",
+          "gate": "B3",
+          "arrivalTime": "2016-12-08T11:00:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T11:00:00.000Z"
+        },
+        {
+          "airlineName": "United Airlines",
+          "flightNumber": "UA 012",
+          "from": "LAX",
+          "to": "DFW",
+          "gate": "C4",
+          "arrivalTime": "2016-12-08T12:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T12:30:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "John F. Kennedy International Airport",
+      "arrivals": [
+        {
+          "airlineName": "American Airlines",
+          "flightNumber": "AA 123",
+          "from": "LAX",
+          "to": "JFK",
+          "gate": "A1",
+          "arrivalTime": "2016-12-08T09:00:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T09:00:00.000Z"
+        },
+        {
+          "airlineName": "Delta Airlines",
+          "flightNumber": "DL 456",
+          "from": "ORD",
+          "to": "JFK",
+          "gate": "B2",
+          "arrivalTime": "2016-12-08T10:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T10:30:00.000Z"
+        },
+        {
+          "airlineName": "United Airlines",
+          "flightNumber": "UA 789",
+          "from": "DFW",
+          "to": "JFK",
+          "gate": "C3",
+          "arrivalTime": "2016-12-08T12:00:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T12:00:00.000Z"
+        },
+        {
+          "airlineName": "Southwest Airlines",
+          "flightNumber": "WN 012",
+          "from": "LAS",
+          "to": "JFK",
+          "gate": "D4",
+          "arrivalTime": "2016-12-08T13:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T13:30:00.000Z"
+        }
+      ],
+      "departures": [
+        {
+          "airlineName": "American Airlines",
+          "flightNumber": "AA 456",
+          "from": "JFK",
+          "to": "LAX",
+          "gate": "A2",
+          "arrivalTime": "2016-12-08T09:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T09:30:00.000Z"
+        },
+        {
+          "airlineName": "Delta Airlines",
+          "flightNumber": "DL 789",
+          "from": "JFK",
+          "to": "ORD",
+          "gate": "B3",
+          "arrivalTime": "2016-12-08T11:00:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T11:00:00.000Z"
+        },
+        {
+          "airlineName": "United Airlines",
+          "flightNumber": "UA 012",
+          "from": "JFK",
+          "to": "DFW",
+          "gate": "C4",
+          "arrivalTime": "2016-12-08T12:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T12:30:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Heathrow Airport",
+      "arrivals": [
+        {
+          "airlineName": "British Airways",
+          "flightNumber": "BA 123",
+          "from": "JFK",
+          "to": "LHR",
+          "gate": "A1",
+          "arrivalTime": "2016-12-08T09:00:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T09:00:00.000Z"
+        },
+        {
+          "airlineName": "Lufthansa",
+          "flightNumber": "LH 456",
+          "from": "ORD",
+          "to": "LHR",
+          "gate": "B2",
+          "arrivalTime": "2016-12-08T10:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T10:30:00.000Z"
+        },
+        {
+          "airlineName": "Emirates",
+          "flightNumber": "EK 789",
+          "from": "DFW",
+          "to": "LHR",
+          "gate": "C3",
+          "arrivalTime": "2016-12-08T12:00:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T12:00:00.000Z"
+        },
+        {
+          "airlineName": "Air France",
+          "flightNumber": "AF 012",
+          "from": "CDG",
+          "to": "LHR",
+          "gate": "D4",
+          "arrivalTime": "2016-12-08T13:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T13:30:00.000Z"
+        }
+      ],
+      "departures": [
+        {
+          "airlineName": "British Airways",
+          "flightNumber": "BA 456",
+          "from": "LHR",
+          "to": "JFK",
+          "gate": "A2",
+          "arrivalTime": "2016-12-08T09:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T09:30:00.000Z"
+        },
+        {
+          "airlineName": "Lufthansa",
+          "flightNumber": "LH 789",
+          "from": "LHR",
+          "to": "ORD",
+          "gate": "B3",
+          "arrivalTime": "2016-12-08T11:00:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T11:00:00.000Z"
+        },
+        {
+          "airlineName": "Emirates",
+          "flightNumber": "EK 012",
+          "from": "LHR",
+          "to": "DFW",
+          "gate": "C4",
+          "arrivalTime": "2016-12-08T12:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T12:30:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Charles de Gaulle Airport",
+      "arrivals": [
+        {
+          "airlineName": "Air France",
+          "flightNumber": "AF 123",
+          "from": "JFK",
+          "to": "CDG",
+          "gate": "A1",
+          "arrivalTime": "2016-12-08T09:00:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T09:00:00.000Z"
+        },
+        {
+          "airlineName": "Lufthansa",
+          "flightNumber": "LH 456",
+          "from": "ORD",
+          "to": "CDG",
+          "gate": "B2",
+          "arrivalTime": "2016-12-08T10:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T10:30:00.000Z"
+        },
+        {
+          "airlineName": "Emirates",
+          "flightNumber": "EK 789",
+          "from": "DFW",
+          "to": "CDG",
+          "gate": "C3",
+          "arrivalTime": "2016-12-08T12:00:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T12:00:00.000Z"
+        },
+        {
+          "airlineName": "British Airways",
+          "flightNumber": "BA 012",
+          "from": "LHR",
+          "to": "CDG",
+          "gate": "D4",
+          "arrivalTime": "2016-12-08T13:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T13:30:00.000Z"
+        }
+      ],
+      "departures": [
+        {
+          "airlineName": "Air France",
+          "flightNumber": "AF 456",
+          "from": "CDG",
+          "to": "JFK",
+          "gate": "A2",
+          "arrivalTime": "2016-12-08T09:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T09:30:00.000Z"
+        },
+        {
+          "airlineName": "Lufthansa",
+          "flightNumber": "LH 789",
+          "from": "CDG",
+          "to": "ORD",
+          "gate": "B3",
+          "arrivalTime": "2016-12-08T11:00:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T11:00:00.000Z"
+        },
+        {
+          "airlineName": "Emirates",
+          "flightNumber": "EK 012",
+          "from": "CDG",
+          "to": "DFW",
+          "gate": "C4",
+          "arrivalTime": "2016-12-08T12:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T12:30:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Tokyo Haneda Airport",
+      "arrivals": [
+        {
+          "airlineName": "Japan Airlines",
+          "flightNumber": "JL 123",
+          "from": "JFK",
+          "to": "HND",
+          "gate": "A1",
+          "arrivalTime": "2016-12-08T09:00:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T09:00:00.000Z"
+        },
+        {
+          "airlineName": "ANA",
+          "flightNumber": "NH 456",
+          "from": "ORD",
+          "to": "HND",
+          "gate": "B2",
+          "arrivalTime": "2016-12-08T10:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T10:30:00.000Z"
+        },
+        {
+          "airlineName": "United Airlines",
+          "flightNumber": "UA 789",
+          "from": "DFW",
+          "to": "HND",
+          "gate": "C3",
+          "arrivalTime": "2016-12-08T12:00:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T12:00:00.000Z"
+        },
+        {
+          "airlineName": "Delta Airlines",
+          "flightNumber": "DL 012",
+          "from": "LAX",
+          "to": "HND",
+          "gate": "D4",
+          "arrivalTime": "2016-12-08T13:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T13:30:00.000Z"
+        }
+      ],
+      "departures": [
+        {
+          "airlineName": "Japan Airlines",
+          "flightNumber": "JL 456",
+          "from": "HND",
+          "to": "JFK",
+          "gate": "A2",
+          "arrivalTime": "2016-12-08T09:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T09:30:00.000Z"
+        },
+        {
+          "airlineName": "ANA",
+          "flightNumber": "NH 789",
+          "from": "HND",
+          "to": "ORD",
+          "gate": "B3",
+          "arrivalTime": "2016-12-08T11:00:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T11:00:00.000Z"
+        },
+        {
+          "airlineName": "United Airlines",
+          "flightNumber": "UA 012",
+          "from": "HND",
+          "to": "DFW",
+          "gate": "C4",
+          "arrivalTime": "2016-12-08T12:30:00.000Z",
+          "estimatedArrivalTime": "2016-12-08T12:30:00.000Z"
+        }
+      ]
+    }
   ],
   "flight": [
+    {
+      "airlineName": "Air France",
+      "flightNumber": "AF 123",
+      "from": "JFK",
+      "to": "CDG",
+      "gate": "A1",
+      "departureTime": "2016-12-08T09:00:00.000Z",
+      "estimatedDepartureTime": "2016-12-08T09:00:00.000Z"
+    },
+    {
+      "airlineName": "Delta Airlines",
+      "flightNumber": "DL 456",
+      "from": "ORD",
+      "to": "LAX",
+      "gate": "B2",
+      "departureTime": "2016-12-08T10:30:00.000Z",
+      "estimatedDepartureTime": "2016-12-08T10:30:00.000Z"
+    },
+    {
+      "airlineName": "United Airlines",
+      "flightNumber": "UA 789",
+      "from": "DFW",
+      "to": "ORD",
+      "gate": "C3",
+      "departureTime": "2016-12-08T12:00:00.000Z",
+      "estimatedDepartureTime": "2016-12-08T12:00:00.000Z"
+    },
+    {
+      "airlineName": "American Airlines",
+      "flightNumber": "AA 012",
+      "from": "LAX",
+      "to": "DFW",
+      "gate": "D4",
+      "departureTime": "2016-12-08T13:30:00.000Z",
+      "estimatedDepartureTime": "2016-12-08T13:30:00.000Z"
+    },
+    {
+      "airlineName": "British Airways",
+      "flightNumber": "BA 123",
+      "from": "LHR",
+      "to": "JFK",
+      "gate": "A1",
+      "departureTime": "2016-12-08T09:00:00.000Z",
+      "estimatedDepartureTime": "2016-12-08T09:00:00.000Z"
+    },
+    {
+      "airlineName": "Qatar Airways",
+      "flightNumber": "QR 456",
+      "from": "DOH",
+      "to": "ORD",
+      "gate": "B2",
+      "departureTime": "2016-12-08T10:30:00.000Z",
+      "estimatedDepartureTime": "2016-12-08T10:30:00.000Z"
+    },
+    {
+      "airlineName": "Emirates",
+      "flightNumber": "EK 789",
+      "from": "DXB",
+      "to": "DFW",
+      "gate": "C3",
+      "departureTime": "2016-12-08T12:00:00.000Z",
+      "estimatedDepartureTime": "2016-12-08T12:00:00.000Z"
+    },
+    {
+      "airlineName": "Singapore Airlines",
+      "flightNumber": "SQ 012",
+      "from": "SIN",
+      "to": "LAX",
+      "gate": "D4",
+      "departureTime": "2016-12-08T13:30:00.000Z",
+      "estimatedDepartureTime": "2016-12-08T13:30:00.000Z"
+    }
   ]
 }
