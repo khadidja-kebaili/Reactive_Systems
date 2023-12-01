@@ -1,3 +1,23 @@
 <v-container fluid class="flight-view">
-  <h1>Flight</h1>
+  <h1>Flight details</h1>
+  <v-container fluid>
+    <v-row>
+      <v-col cols="12" md="6" lg="4" xl="3">
+        <v-card class="mt-5">
+          <v-card-title class="bg-secondary px-3 pt-3"
+            >Flight: {{flightNumber}}</v-card-title
+          >
+          <v-divider></v-divider>
+          <v-card-text>
+            <p>Airline: {{airlineName}}</p>
+            <p>From: {{from}}</p>
+            <p>To: {{to}}</p>
+            <p>Gate: {{gate}}</p>
+            <p>Arrival time: {{arrivalTime}}</p>
+            <p>Estimated arrival time: {{estimatedArrivalTime}}</p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </v-container>
