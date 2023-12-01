@@ -1,3 +1,21 @@
 <v-container fluid class="airports-view">
   <h1>Airports</h1>
+  <v-container fluid>
+    <v-row>
+      <v-col
+        v-for="item in airports"
+        :id="item.id"
+        cols="12"
+        md="6"
+        lg="4"
+        xl="3"
+      >
+        <v-card class="mt-5">
+          <v-card-title class="bg-grey-lighten-3 px-3 pt-3">
+            {{item.id}} - {{item.name}}
+          </v-card-title>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </v-container>
