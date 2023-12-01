@@ -1,3 +1,32 @@
 <v-container fluid class="flights-view">
   <h1>Flights</h1>
+  <v-container fluid>
+    <v-row>
+      <v-col
+        v-for="item in flights"
+        :id="item.id"
+        cols="12"
+        md="6"
+        lg="4"
+        xl="3"
+        style="cursor: pointer"
+        @click.prevent="goToFlight(item.id)"
+      >
+        <v-card class="mt-5">
+          <v-card-title class="bg-secondary px-3 pt-3">
+            Flight: {{item.flightNumber}}
+          </v-card-title>
+          <v-divider></v-divider>
+          <v-card-text>
+            <p>Airline: {{item.airlineName}}</p>
+            <p>From: {{item.from}}</p>
+            <p>To: {{item.to}}</p>
+            <p>Gate: {{item.gate}}</p>
+            <p>Arrival time: {{item.arrivalTime}}</p>
+            <p>Estimated arrival time: {{item.estimatedArrivalTime}}</p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </v-container>
