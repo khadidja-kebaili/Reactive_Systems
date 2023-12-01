@@ -1,0 +1,46 @@
+<v-app-bar class="custom-app-bar bg-primary">
+  <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+  <img
+    alt="logo"
+    src="@/assets/logo.svg"
+    height="40"
+    class="d-inline-block align-top ml-2"
+    style="cursor: pointer"
+    @click.prevent="$router.push('/')"
+  />
+
+  <v-app-bar-title style="cursor: pointer" @click.prevent="$router.push('/')">
+    Airport Data
+  </v-app-bar-title>
+</v-app-bar>
+
+<v-navigation-drawer v-model="drawer">
+  <v-list class="mt-5">
+    <v-list-item prepend-icon="mdi-account-circle" title="Username" />
+  </v-list>
+
+  <v-divider class="mt-5"></v-divider>
+
+  <v-list>
+    <v-list-item
+      v-for="item in features"
+      :key="item.title"
+      :title="item.title"
+      :prepend-icon="item.icon"
+      link
+      router
+      :to="{ name: item.route }"
+    />
+  </v-list>
+
+  <v-divider class="mt-5"></v-divider>
+
+  <v-list nav>
+    <v-list-item
+      :title="themeTitle"
+      prepend-icon="mdi-theme-light-dark"
+      @click="toggleTheme"
+    />
+  </v-list>
+</v-navigation-drawer>
