@@ -3,7 +3,7 @@ ThisBuild / version := "0.1.0-SNAPSHOT"
 ThisBuild / scalaVersion := "3.3.1"
 
 val AkkaVersion = "2.8.5"
-val AkkaHttpVersion = "10.5.0"
+val AkkaHttpVersion = "10.6.0"
 
 lazy val root = (project in file("."))
   .settings(

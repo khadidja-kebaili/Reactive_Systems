@@ -1,6 +1,6 @@
 package model
-import model.Airplane
+import model.Flight
 
-case class Airport(name: String, arrivals: List[Airplane], departures:List[Airplane]) {
+case class Airport(name: String, arrivals: List[Flight], departures:List[Flight]) {
   override def toString: String = name
 }

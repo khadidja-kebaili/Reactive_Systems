@@ -16,7 +16,7 @@ import scala.util.Random
 
 // This is needed to convert between models and json
 class ModelJsonConverters extends DefaultJsonProtocol {
-  implicit val airplaneFormat: RootJsonFormat[Airplane] = jsonFormat4(Airplane.apply)
+  implicit val airplaneFormat: RootJsonFormat[Flight] = jsonFormat4(Flight.apply)
   implicit val airportFormat: RootJsonFormat[Airport] = jsonFormat3(Airport.apply)
   implicit val airportsFormat: RootJsonFormat[Airports] = jsonFormat1(Airports.apply)
 }
@@ -26,7 +26,7 @@ object ApiServer extends ModelJsonConverters with SprayJsonSupport {
   val airlines = List("Lufthansa", "Air Berlin", "Ryanair", "Emirates", "United Airlines")
 
   // Funktion zum Generieren eines zufälligen Flugzeugs
-  def airplaneGenerator: Airplane = {
+  def airplaneGenerator: Flight = {
     val airline = airlines(Random.nextInt(airlines.length))
 
     // Deklaration der Variablen mit initialen Werten
@@ -42,7 +42,7 @@ object ApiServer extends ModelJsonConverters with SprayJsonSupport {
       .plus(randomMinutes, ChronoUnit.MINUTES)
       .plus(randomHours, ChronoUnit.HOURS)
 
-    Airplane(airline, flightNumber, estimatedArrivalTime.toString, arrivalTime.toString)
+    Flight(airline, flightNumber, estimatedArrivalTime.toString, arrivalTime.toString)
   }
 
   // Funktion zum Generieren eines zufälligen Flughafens mit einer bestimmten Anzahl von Abflügen bzw. Ankünften

@@ -19,7 +19,7 @@ class ApiServerTest extends AnyWordSpec with Matchers with ScalatestRouteTest wi
   "ModelJsonConverters" should {
     "provide implicit RootJsonFormat for Airplane" in {
       val converters = new ModelJsonConverters
-      val airplaneFormat: RootJsonFormat[Airplane] = converters.airplaneFormat
+      val airplaneFormat: RootJsonFormat[Flight] = converters.airplaneFormat
       assert(airplaneFormat != null)
     }
 
