@@ -1,7 +1,7 @@
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import controller.AirportController
-import model.Airports
+import model.Airport
 import util.ApiServer.routes
 import view.AirportsView.printAirports
 
@@ -11,7 +11,6 @@ import scala.io.StdIn.*
 @main
 def mainAirportData(args: String*): Unit = {
   println("Starting 'Airport Data' application...")
-  print(printAirports(Airports(AirportController.getAirports())))
 }
 
 @main

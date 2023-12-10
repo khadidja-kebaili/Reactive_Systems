@@ -1,15 +1,17 @@
 package util
 
+import util.FlightServices
+
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.server.Route
+import model.{Airport, Flight}
 //import model.{Airport, Airports, Flight}
 import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport.*
 import akka.http.scaladsl.model.StatusCodes
-import util.SprayJsonExample.system
 import akka.Done
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
@@ -22,18 +24,24 @@ object FlightAPI extends App {
   implicit val system: ActorSystem[_] = ActorSystem(Behaviors.empty, "FlightAPI")
   implicit val executionContext: ExecutionContext = system.executionContext
 
-  final case class Flight(flightNumber: Long, airlineName: String, dep: String, arr: String)
-
-  var flight_I: Flight = Flight(1, "Lufthansa", "08:10", "09:20")
-  var flight_II: Flight = Flight(2, "Air Algerie", "19:00", "19:00")
-  var flight_III: Flight = Flight(3, "Air France", "11:40", "11:43")
-  var flights: List[Flight] = List(flight_I, flight_II, flight_III)
+  var flightService = new FlightServices
+  var flights = flightService.airplanesGenerator
+  var airport = flightService.airportGenerator
+  var airports = flightService.airportsGenerator()
 
   implicit val flightFormat: RootJsonFormat[Flight] = jsonFormat4(Flight.apply)
   implicit val flightsFormat: RootJsonFormat[List[Flight]] = listFormat[Flight]
+  implicit val airportFormat: RootJsonFormat[Airport] = jsonFormat3(Airport.apply)
+  implicit val airportsFormat: RootJsonFormat[List[Airport]] = listFormat[Airport]
   def getAllFlights: Future[List[Flight]] = Future.successful(flights)
   def getOneFlight(flightNumber: Long): Future[Option[Flight]] = Future {
     flights.find(f => f.flightNumber == flightNumber)
+  }
+  
+  def getAllAirports: Future[List[Airport]] = Future.successful(airports)
+
+  def getOneAirport(name: String): Future[Option[Airport]] = Future {
+    airports.find( a=> a.name == name)
   }
 
   val route: Route =
@@ -53,8 +61,24 @@ object FlightAPI extends App {
               complete(flights)
             }
           }
+        },
+      get {
+        path("airports"){
+          val futureAirports: Future[List[Airport]] = getAllAirports
+          onComplete(futureAirports) { airports =>
+            complete(airports)
+          }
         }
-          )
+      },
+      get {
+        pathPrefix("airport" / Segment){ name =>
+            val futureAirport: Future[Option[Airport]] = getOneAirport(name)
+            onComplete(futureAirport) { airport =>
+              complete(airport)
+            }
+          }
+        }
+       )
 
   val server = Http().newServerAt("localhost", 4040).bind(route)
   server.map { _ =>
@@ -62,4 +86,5 @@ object FlightAPI extends App {
   } recover { case ex =>
     println("Failed to start the server due to: " + ex.getMessage)
   }
+  
 }

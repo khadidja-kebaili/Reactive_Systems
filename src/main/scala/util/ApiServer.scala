@@ -7,6 +7,7 @@ import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.server.Route
 import model.*
 import spray.json.*
+import spray.json.DefaultJsonProtocol.listFormat
 
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
@@ -18,11 +19,10 @@ import scala.util.Random
 class ModelJsonConverters extends DefaultJsonProtocol {
   implicit val airplaneFormat: RootJsonFormat[Flight] = jsonFormat4(Flight.apply)
   implicit val airportFormat: RootJsonFormat[Airport] = jsonFormat3(Airport.apply)
-  implicit val airportsFormat: RootJsonFormat[Airports] = jsonFormat1(Airports.apply)
+  implicit val airportsFormat: RootJsonFormat[List[Airport]] = listFormat[Airport]
 }
 
 object ApiServer extends ModelJsonConverters with SprayJsonSupport {
-  val airports = List("Berlin-Tegel", "München", "Dortmund", "Erfurt-Weimar", "Stuttgart")
   val airlines = List("Lufthansa", "Air Berlin", "Ryanair", "Emirates", "United Airlines")
 
   // Funktion zum Generieren eines zufälligen Flugzeugs
@@ -30,7 +30,7 @@ object ApiServer extends ModelJsonConverters with SprayJsonSupport {
     val airline = airlines(Random.nextInt(airlines.length))
 
     // Deklaration der Variablen mit initialen Werten
-    val flightNumber: String = "XYZ" + Random.nextInt().toString
+    val flightNumber: Long = Random.nextInt()
     val estimatedArrivalTime: LocalTime = LocalTime.parse(LocalTime.of(Random.nextInt(24), Random.nextInt(60)).toString)
 
     // Generiere zufällige Anzahl von Minuten oder Stunden
@@ -42,7 +42,7 @@ object ApiServer extends ModelJsonConverters with SprayJsonSupport {
       .plus(randomMinutes, ChronoUnit.MINUTES)
       .plus(randomHours, ChronoUnit.HOURS)
 
-    Flight(airline, flightNumber, estimatedArrivalTime.toString, arrivalTime.toString)
+    Flight(flightNumber, airline, estimatedArrivalTime.toString, arrivalTime.toString)
   }
 
   // Funktion zum Generieren eines zufälligen Flughafens mit einer bestimmten Anzahl von Abflügen bzw. Ankünften
@@ -50,6 +50,12 @@ object ApiServer extends ModelJsonConverters with SprayJsonSupport {
     val departures = List.fill(Random.nextInt(5))(airplaneGenerator)
     val arrivals = List.fill(Random.nextInt(5))(airplaneGenerator)
     Airport(name, arrivals, departures)
+  }
+
+  // Funktion zum Generieren eines zufälligen Flughafens mit einer bestimmten Anzahl von Abflügen bzw. Ankünften
+  def airportsGenerator(): List[Airport] = {
+    val airportList: List[Airport] = airlines.map(airportGenerator)
+    airportList
   }
 
   // define api routes
@@ -60,7 +66,7 @@ object ApiServer extends ModelJsonConverters with SprayJsonSupport {
   } ~
     pathPrefix("airports") {
       (get) {
-        complete(Airports(airports))
+        complete(airportsGenerator())
       }
     }
 }
