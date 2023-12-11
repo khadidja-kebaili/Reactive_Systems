@@ -21,6 +21,6 @@ lazy val root = (project in file("."))
     libraryDependencies += "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
     libraryDependencies += "com.typesafe.akka" %% "akka-stream-testkit" % AkkaVersion,
     libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.4.11" % Runtime,
-    libraryDependencies += "org.apache.kafka" %% "kafka" % KafkaVersion
+    libraryDependencies += "org.apache.kafka" % "kafka-clients" % KafkaVersion
   )
 
