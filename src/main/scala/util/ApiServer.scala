@@ -3,15 +3,15 @@ package util
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-import akka.http.scaladsl.server.Directives.*
+import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import model.*
-import spray.json.*
+import model._
+import spray.json._
 
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import scala.concurrent.ExecutionContext
-import scala.io.StdIn.*
+import scala.io.StdIn._
 import scala.util.Random
 
 // This is needed to convert between models and json
