@@ -51,7 +51,7 @@ class CSVExternalDSLReaderTest extends AnyWordSpec with Matchers {
 
     "parse valid input correctly" in {
       val input = "Aria;Robinson;Berlin;Athen;17:00;21C;3B;16:40;7752;Lufthansa"
-      val expectedFlight = Ticket("Aria", "Robinson", "Berlin", "Athen", "17:00", "21C", "3B", "16:40", 7752, "Lufthansa")
+      val expectedFlight = Ticket("Aria", "Robinson", "Berlin", "Athen", "17:00", "21C", "3B", "16:40", 20, 7752, "Lufthansa")
       flightDSL.parseFlight(input) shouldBe Some(expectedFlight)
     }
 
