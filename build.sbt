@@ -6,7 +6,7 @@ val AkkaVersion = "2.8.5"
 val AkkaHttpVersion = "10.5.0"
 val KafkaVersion = "3.6.1"
 val AlpakkaVersion = "6.0.1"
-val AlpakkaKafkaVersion = "4.0.0"
+val AlpakkaKafkaVersion = "4.0.2"
 
 lazy val root = (project in file("."))
   .settings(

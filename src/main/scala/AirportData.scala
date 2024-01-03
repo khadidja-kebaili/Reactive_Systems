@@ -1,12 +1,16 @@
 import akka.actor.ActorSystem
-import akka.http.scaladsl.Http
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import controller.AirportController
-import model.Airports
-import util.ApiServer.routes
+import model.*
+import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
+import org.apache.kafka.common.serialization.StringSerializer
+import spray.json.*
+import util.ApiServer
 import view.AirportsView.printAirports
 
+import java.util.Properties
 import scala.concurrent.ExecutionContext
-import scala.io.StdIn.*
+
 
 @main
 def mainAirportData(args: String*): Unit = {
@@ -14,16 +18,33 @@ def mainAirportData(args: String*): Unit = {
   print(printAirports(Airports(AirportController.getAirports())))
 }
 
-@main
-def mainGenerator(args: String*): Unit = {
+object mainGenerator extends ModelJsonConverters with SprayJsonSupport with App{
   implicit val system: ActorSystem = ActorSystem("ApiServer")
   implicit val ec: ExecutionContext = system.dispatcher
-  val serverFuture = Http().newServerAt("localhost", 8081).bind(routes)
-  println("Generator online at http://localhost:8081/\nPress ENTER to stop...")
-  readLine()
-  serverFuture.flatMap(_.unbind()).onComplete(_ => {
-    system.terminate()
-    println("Generator shutting down...")
-  })
+
+  val props = new Properties()
+  props.put("bootstrap.servers", "localhost:9092")
+  props.put("key.serializer", classOf[StringSerializer].getName)
+  props.put("value.serializer", classOf[StringSerializer].getName)
+
+  val producer = new KafkaProducer[String, String](props)
+
+  val TOPIC = "original-data"
+  val KEY = "message"
+
+  // Start a separate thread for the loop
+  println("Generator online!")
+  while (true) {
+    val value = ApiServer.airportsGenerator()
+    val valueJson = value.toJson.toString()
+    producer.send(new ProducerRecord(TOPIC, KEY, valueJson))
+    // Sleep for 1 second
+    Thread.sleep(1000)
+  }
+
+  producer.close()
+  system.terminate()
+  println("Generator stopped. Exiting program...")
+
 }
 

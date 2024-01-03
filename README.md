@@ -17,6 +17,9 @@ Alle bisher implementierten Features:
 # run tests
 sbt coverage test
 
+# get test coverage (run tests before report)
+sbt coverageReport
+
 # run applications -> have to choose which one
 sbt run
 
