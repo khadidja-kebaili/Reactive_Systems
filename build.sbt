@@ -2,11 +2,14 @@ ThisBuild / version := "0.1.0-SNAPSHOT"
 
 ThisBuild / scalaVersion := "3.3.1"
 
+ThisBuild / crossScalaVersions := Seq("2.13.12", "3.3.1")
+
 val AkkaVersion = "2.8.5"
 val AkkaHttpVersion = "10.5.0"
 val KafkaVersion = "3.6.1"
 val AlpakkaVersion = "6.0.1"
 val AlpakkaKafkaVersion = "4.0.2"
+val SparkVersion = "3.5.0"
 
 lazy val root = (project in file("."))
   .settings(
@@ -26,4 +29,9 @@ lazy val root = (project in file("."))
     libraryDependencies += "org.apache.kafka" % "kafka-clients" % KafkaVersion,
     libraryDependencies += "com.lightbend.akka" %% "akka-stream-alpakka-s3" % AlpakkaVersion,
     libraryDependencies += "com.typesafe.akka" %% "akka-stream-kafka" % AlpakkaKafkaVersion,
+
+    libraryDependencies += "org.apache.spark" % "spark-core_2.13" % SparkVersion,
+    libraryDependencies += "org.apache.spark" % "spark-streaming_2.13" % SparkVersion,
+    libraryDependencies += "org.apache.spark" % "spark-streaming-kafka-0-10_2.13" % SparkVersion,
+    libraryDependencies += "org.apache.spark" % "spark-sql_2.13" % SparkVersion,
   )
