@@ -1,10 +1,10 @@
 import akka.actor.ActorSystem
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import controller.AirportController
-import model.*
+import model._
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 import org.apache.kafka.common.serialization.StringSerializer
-import spray.json.*
+import spray.json._
 import util.ApiServer
 import view.AirportsView.printAirports
 

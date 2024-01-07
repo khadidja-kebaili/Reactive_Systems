@@ -1,6 +1,6 @@
 package util
 
-import model.*
+import model._
 
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
