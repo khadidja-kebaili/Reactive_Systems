@@ -1,8 +1,5 @@
 package model
 
-import akka.http.scaladsl.server.*
-import akka.http.scaladsl.server.Directives.*
-import model.*
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import spray.json.RootJsonFormat
