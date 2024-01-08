@@ -1,8 +1,4 @@
-package controller
-
-import akka.actor.AbstractActor.Receive
 import akka.actor.{Actor, ActorSystem, Props}
-import akka.pattern.ask
 import com.opencsv.CSVReader
 
 import scala.concurrent.{Await, ExecutionContext, Future}
@@ -10,19 +6,28 @@ import scala.concurrent.duration.*
 import scala.concurrent.ExecutionContext.Implicits.global
 import util.{FlightDSL, Ticket}
 
-import java.io.{BufferedReader, FileReader}
-import util.CSVExternalDSLReader.filePath
-
 import scala.collection.JavaConverters.collectionAsScalaIterableConverter
 import java.io.{BufferedReader, FileReader}
-import java.lang
-import scala.::
-import scala.language.postfixOps
+import scala.concurrent.duration._
+import akka.pattern.ask
+import akka.util.Timeout
+
+
+case class SearchTask(tickets: Option[List[Ticket]], criteria: Ticket => Boolean)
+case class SearchResult(found: Boolean)
+
+class SearchActor extends Actor {
+  def receive: Receive = {
+    case SearchTask(tickets, criteria) =>
+      val result = DivideAndConquerSearch.divideAndConquerSearch(tickets, criteria)
+      sender() ! SearchResult(result)
+  }
+}
 
 object DivideAndConquerSearch {
 
   def divideAndConquerSearch(tickets: Option[List[Ticket]], criteria: Ticket => Boolean)(implicit ec: ExecutionContext): Boolean = {
-    val threshold = 1000
+    val threshold = 100
 
     if (tickets.getOrElse(List()).size <= threshold) {
       tickets.exists(_.exists(criteria))
@@ -41,7 +46,6 @@ object DivideAndConquerSearch {
     }
   }
 
-
   def main(args: Array[String]): Unit = {
     val flightDSL = FlightDSL
     val filePath = "C:\\Users\\KhadidjaKebaili\\Documents\\GitHub\\Reactive_Systems\\src\\main\\scala\\util\\Testdaten.CSV"
@@ -56,36 +60,35 @@ object DivideAndConquerSearch {
         }
       }.toList.flatten
     }
+    val searchActorProps = Props(new SearchActor)
+    val system = ActorSystem("SearchSystem")
+    val searchActor1 = system.actorOf(searchActorProps, "searchActor1")
+    val searchActor2 = system.actorOf(searchActorProps, "searchActor2")
 
-    val numberOfTickets: Int = ticketList.getOrElse(List()).size
-    print(numberOfTickets)
+    // Divide the task into two parts and distribute them to the actors
+    val (leftTickets, rightTickets) = ticketList.getOrElse(List()).splitAt(ticketList.getOrElse(List()).length / 2)
 
-    ticketList.foreach(elem => print(elem))
+    val task1 = SearchTask(Some(leftTickets), ticket => ticket.vorname == "Chloe")
+    val task2 = SearchTask(Some(rightTickets), ticket => ticket.vorname == "Chloe")
 
-      // Example criteria: searching by last name "Doe"
-      val lastNameCriteria: Ticket => Boolean = ticket => ticket.nachname == "Chloe"
+    // Send tasks to actors
+    val timeoutDuration = 5.seconds // Beispielzeit, passen Sie dies nach Bedarf an
+    implicit val timeout: Timeout = Timeout(timeoutDuration)
 
-      // Example criteria: searching by first name "John" and flight number 12345
-      val firstNameAndFlightCriteria: Ticket => Boolean = ticket =>
-        ticket.vorname == "Chloe"
+    val futureResult1 = (searchActor1 ? task1).mapTo[SearchResult]
+    val futureResult2 = (searchActor2 ? task2).mapTo[SearchResult]
 
-      // Example criteria: searching by boarding date "11:30"
-      val boardingTimeCriteria: Ticket => Boolean = ticket => ticket.boardingzeit == "11:30"
+    // Combine the results from both actors
+    val combinedResult = for {
+      result1 <- futureResult1
+      result2 <- futureResult2
+    } yield result1.found || result2.found
 
-      // Example usage with lastNameCriteria
-      val resultLastName = divideAndConquerSearch(ticketList, lastNameCriteria)
+    // Get the final result
+    val finalResult = Await.result(combinedResult, 5.seconds)
+    println(finalResult)
 
-      // Example usage with firstNameAndFlightCriteria
-      val resultFirstNameAndFlight = divideAndConquerSearch(ticketList, firstNameAndFlightCriteria)
-
-      // Example usage with boardingTimeCriteria
-      val resultBoardingTime = divideAndConquerSearch(ticketList, boardingTimeCriteria)
-
-      // Handle results as needed
-      print(resultLastName, resultBoardingTime, resultFirstNameAndFlight)
-
-      // Make sure to manage the ExecutionContext and shut it down properly if needed
-      // ...
-
+    // Terminate the actor system
+    system.terminate()
   }
 }
