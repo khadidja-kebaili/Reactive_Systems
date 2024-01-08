@@ -18,13 +18,6 @@ object AirportController {
   val API_KEY = "YOUR-API-KEY"
 
   def getAirports(): List[String] = {
-    val future = Http(system).singleRequest(
-      HttpRequest(
-        method = HttpMethods.GET,
-        uri = s"$BASE_URL/airports"
-      )
-    )
-    // TODO: do something with the future
-    return List("Stuttgart", "Berlin", "München", "Frankfurt", "Bremen", "Hanover", "Hamburg")
+    List("Stuttgart", "Berlin", "München", "Frankfurt", "Bremen", "Hanover", "Hamburg")
   }
 }
