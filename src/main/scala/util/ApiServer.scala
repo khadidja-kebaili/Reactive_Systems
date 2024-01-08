@@ -1,27 +1,14 @@
 package util
 
-import akka.actor.ActorSystem
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-import akka.http.scaladsl.server.Directives.*
-import akka.http.scaladsl.server.Route
-import model.*
-import spray.json.*
+import model._
 
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
-import scala.concurrent.ExecutionContext
-import scala.io.StdIn.*
 import scala.util.Random
 
-// This is needed to convert between models and json
-class ModelJsonConverters extends DefaultJsonProtocol {
-  implicit val airplaneFormat: RootJsonFormat[Airplane] = jsonFormat4(Airplane.apply)
-  implicit val airportFormat: RootJsonFormat[Airport] = jsonFormat3(Airport.apply)
-  implicit val airportsFormat: RootJsonFormat[Airports] = jsonFormat1(Airports.apply)
-}
 
-object ApiServer extends ModelJsonConverters with SprayJsonSupport {
+
+object ApiServer{
   val airports = List("Berlin-Tegel", "München", "Dortmund", "Erfurt-Weimar", "Stuttgart")
   val airlines = List("Lufthansa", "Air Berlin", "Ryanair", "Emirates", "United Airlines")
 
@@ -52,15 +39,8 @@ object ApiServer extends ModelJsonConverters with SprayJsonSupport {
     Airport(name, arrivals, departures)
   }
 
-  // define api routes
-  val routes: Route = pathPrefix("airport") {
-    (get & path(Segment)) { name =>
-      complete(airportGenerator(name))
-    }
-  } ~
-    pathPrefix("airports") {
-      (get) {
-        complete(Airports(airports))
-      }
-    }
+  // Funktion welche für eine Liste an Flughäfen inkl. Flüge usw. zurückliefert
+  def airportsGenerator(): AirportsWithData = {
+    AirportsWithData(airports.map(airportGenerator))
+  }
 }
